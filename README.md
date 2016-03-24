@@ -5,7 +5,7 @@ This module is part of [TypiCMS](https://github.com/TypiCMS/Base), a multilingua
 
 ```composer require webfactorybulgaria/theme-basic```
 
-in config/app.js:
+in config/app.php:
 
 after core add:
 
@@ -22,3 +22,10 @@ before core add:
 ```php artisan migrate```
 ```#php artisan db:seed --class=UserTableSeeder```
 
+In gulpfile.js
+cahnge 
+```return gulp.src('resources/assets/less/public/master.less')```
+to 
+```return gulp.src('resources/assets/less/public/master.less')```
+
+run ```gulp all```
