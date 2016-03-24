@@ -1,13 +1,12 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use TypiCMS\Modules\Slides\Models\Slide;
-use TypiCMS\Modules\Slides\Models\SlideTranslation;
-use TypiCMS\Modules\Blocks\Models\Block;
-use TypiCMS\Modules\Blocks\Models\BlockTranslation;
 use TypiCMS\Modules\Translations\Models\Translation;
-use TypiCMS\Modules\Translations\Models\TranslationTranslation;
-
+use TypiCMS\Modules\Slides\Models\Slide;
+use TypiCMS\Modules\Partners\Models\Partner;
+use TypiCMS\Modules\Blocks\Models\Block;
+use TypiCMS\Modules\Pages\Models\Page;
+use Faker\Factory as Faker;
 
 class ThemeBasicSeeder extends Seeder
 {
@@ -18,44 +17,87 @@ class ThemeBasicSeeder extends Seeder
      */
     public function run()
     {
+/*
         DB::statement('SET FOREIGN_KEY_CHECKS = 0'); // disable foreign key constraints
 
         DB::table('slides')->truncate();
         DB::table('slide_translations')->truncate();
 
+        DB::table('partners')->truncate();
+        DB::table('partner_translations')->truncate();
+
         DB::table('blocks')->truncate();
         DB::table('block_translations')->truncate();
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 1'); // enable foreign key constraints
+*/
 
-        
+
+        $faker = Faker::create();
+
+        /* Pages */
+        Page::create([
+            'module' => 'partners',
+            'en' => [
+                'slug' => 'partners',
+                'uri' => 'partners', 
+                'title' => 'Partners',
+                'status' => 1,
+                'body' => ''
+            ]
+        ]);
+
+
+        /* Translations */
+        Translation::create([
+            'group' => 'db',
+            'key' => 'Copyright',
+            'en' => ['translation' => 'Made by Webfactory']
+        ]);
+        Translation::create([
+            'group' => 'db',
+            'key' => 'Home',
+            'en' => ['translation' => 'Home']
+        ]);
 
 
         /* Slides */
         for ($i = 1; $i <= 3; $i++){
-            $slide = new Slide();
-            $slide->position = $i;
-            $slide->page_id = 1;
-            $slide->image = 'uploads/basic/theme-basic-'.$i.'.jpg';
-            $slide->save();
 
-            $slideTranslation = new SlideTranslation();
-            $slideTranslation->slide_id = $slide->id;
-            $slideTranslation->locale = 'en';
-            $slideTranslation->status = 1;
-            $slideTranslation->body = '<p>Slide '.$i.'</p>';
-            $slideTranslation->save();
+           Slide::create([
+                'position' => $i,
+                'page_id' => 1,
+                'image' => 'uploads/basic/theme-basic-'.$i.'.jpg',
+                'en' => [
+                    'status' => 1,
+                    'body' => '<p>Slide '.$i.'</p>'
+                ]
+            ]);
+        }
+
+        /* Partners */
+        for ($i = 1; $i <= 4; $i++){
+
+           Partner::create([
+                'position' => $i,
+                'homepage' => 1,
+                'image' => 'uploads/basic/theme-basic-'.($i+3).'.jpg',
+                'en' => [
+                    'status' => 1,
+                    'title' => $faker->company,
+                    'slug' => 'partner-'.$i,
+                    'summary' => $faker->paragraph,
+                    'body' => '<p>'.$faker->text.'</p>'
+                ]
+            ]);
         }
 
         /* BLOCKS */
-        $block = new Block();
-        $block->name = 'Homepage-Features';
-        $block->save();
-        $blockTranslation = new BlockTranslation();
-        $blockTranslation->block_id = $block->id;
-        $blockTranslation->locale = 'en';
-        $blockTranslation->status = 1;
-        $blockTranslation->body = '<div class="row">
+        Block::create([
+            'name' => 'Homepage-Features',
+            'en' => [
+                'status' => 1,
+                'body' => '<div class="row">
 <div class="col-lg-12">
 <h2 class="page-header">Modern Business Features</h2>
 </div>
@@ -78,18 +120,14 @@ class ThemeBasicSeeder extends Seeder
 <div class="col-md-6"><img alt="" class="img-responsive" src="http://placehold.it/700x450" /></div>
 </div>
 <hr>
-';
-        $blockTranslation->save();
-
-
-        $block = new Block();
-        $block->name = 'Homepage-CTA';
-        $block->save();
-        $blockTranslation = new BlockTranslation();
-        $blockTranslation->block_id = $block->id;
-        $blockTranslation->locale = 'en';
-        $blockTranslation->status = 1;
-        $blockTranslation->body = '        <div class="well">
+'
+            ]
+        ]);
+        Block::create([
+            'name' => 'Homepage-CTA',
+            'en' => [
+                'status' => 1,
+                'body' => '<div class="well">
             <div class="row">
                 <div class="col-md-8">
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
@@ -101,18 +139,14 @@ class ThemeBasicSeeder extends Seeder
         </div>
 
         <hr>
-';
-        $blockTranslation->save();
-
-
-        $block = new Block();
-        $block->name = 'Homepage-Highlights';
-        $block->save();
-        $blockTranslation = new BlockTranslation();
-        $blockTranslation->block_id = $block->id;
-        $blockTranslation->locale = 'en';
-        $blockTranslation->status = 1;
-        $blockTranslation->body = '<div class="row">
+'
+            ]
+        ]);
+        Block::create([
+            'name' => 'Homepage-Highlights',
+            'en' => [
+                'status' => 1,
+                'body' => '<div class="row">
 <div class="col-lg-12">
 <h1 class="page-header">Modern Theme</h1>
 </div>
@@ -153,8 +187,9 @@ class ThemeBasicSeeder extends Seeder
 </div>
 </div>
 </div>
-';
-        $blockTranslation->save();
+'
+            ]
+        ]);
 
 
     }
