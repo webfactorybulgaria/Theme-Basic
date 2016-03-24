@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
 
 <head>
@@ -34,10 +34,132 @@
 
     @endif
 
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 
+
 <body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))has-navbar @endif">
-NEW THEME
+
+@if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))
+    @include('core::_navbar')
+@endif
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">@lang('db.Open navigation')</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @include('core::public._site-title')
+            </div>
+            @section('lang-switcher')
+                @include('core::public._lang-switcher')
+            @show
+
+            @section('site-nav')
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                {!! Menus::render('main') !!}
+            </div>
+            @show
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    @include('core::public._alert')
+
+    @section('header-carousel')
+    @show
+
+
+    <!-- Page Content -->
+    <div class="container">
+        @section('heading-breadcrumbs')
+        <!-- Page Heading/Breadcrumbs -->
+        <div class="row">
+            <div class="col-lg-12">
+                @section('heading')
+                @if(!empty($page))
+                <h1 class="page-header">{{ $page->present()->title }}
+                    <small>{{ $page->present()->subtitle }}</small>
+                </h1>
+                @endif
+                @show
+                @section('breadcrumbs')
+                <ol class="breadcrumb">
+                    <li><a href="{{ TypiCMS::homeUrl() }}">@lang('db.Home')</a></li>
+                    @section('breadcrumbs-current')
+                    @if(!empty($page))
+                    <li class="active">{{ $page->present()->title }}</li>
+                    @endif
+                    @show
+                </ol>
+                @show
+            </div>
+        </div>
+        <!-- /.row -->
+        @show
+
+        @yield('main')
+
+        <!-- Footer -->
+        @section('site-footer')
+        <footer>
+            <nav class="social-nav">
+                {!! Menus::render('social') !!}
+            </nav>
+            <nav class="footer-nav">
+                {!! Menus::render('footer') !!}
+            </nav>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>@lang('db.Copyright')</p>
+                </div>
+            </div>
+        </footer>
+        @show
+
+    </div>
+    <!-- /.container -->
+ 
+    <script src="@if(app()->environment('production')){{ asset(elixir('js/public/components.min.js')) }}@else{{ asset('js/public/components.min.js') }}@endif"></script>
+    <script src="@if(app()->environment('production')){{ asset(elixir('js/public/master.js')) }}@else{{ asset('js/public/master.js') }}@endif"></script>
+    @if (Request::input('preview'))
+    <script src="{{ asset('js/public/previewmode.js') }}"></script>
+    @endif
+
+    @yield('js')
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+    </script>
+
+</body>
+
+</html>
+
+
+<?php /*<!doctype html>
+<html lang="{{ config('app.locale') }}">
+
+
+<body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))has-navbar @endif">
+
     @section('skip-links')
     <a href="#main" class="skip-to-content">@lang('db.Skip to content')</a>
     <a href="#site-nav" class="btn-offcanvas" data-toggle="offcanvas" title="@lang('db.Open navigation')" aria-label="@lang('db.Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw" aria-hidden="true"></span></a>
@@ -101,3 +223,4 @@ NEW THEME
 </body>
 
 </html>
+*/?>
