@@ -17,8 +17,7 @@ class ThemeBasicSeeder extends Seeder
      */
     public function run()
     {
-/*
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0'); // disable foreign key constraints
+/*        DB::statement('SET FOREIGN_KEY_CHECKS = 0'); // disable foreign key constraints
 
         DB::table('slides')->truncate();
         DB::table('slide_translations')->truncate();
@@ -30,54 +29,91 @@ class ThemeBasicSeeder extends Seeder
         DB::table('block_translations')->truncate();
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 1'); // enable foreign key constraints
-*/
 
+*/
 
         $faker = Faker::create();
 
         /* Pages */
-        Page::create([
-            'module' => 'partners',
-            'en' => [
-                'slug' => 'partners',
-                'uri' => 'partners', 
-                'title' => 'Partners',
-                'status' => 1,
-                'body' => ''
-            ],
-            'fr' => [
-                'slug' => 'partners',
-                'uri' => 'partners', 
-                'title' => 'Partners',
-                'status' => 1,
-                'body' => ''
-            ],
-            'nl' => [
-                'slug' => 'partners',
-                'uri' => 'partners', 
-                'title' => 'Partners',
-                'status' => 1,
-                'body' => ''
-            ],
-        ]);
+        $p = Page::find(2);
+        $p->module = 'contacts';
+        $p->save();
+
+        $tr = TypiCMS\Modules\Pages\Models\PageTranslation::where('slug', 'contact')->where('locale', 'en')->first();
+        $tr->body = '<div class="row"><!-- Map Column -->
+<div class="col-md-8"><!-- Embedded Google Map --><iframe frameborder="0" height="400px" marginheight="0" marginwidth="0" scrolling="no" src="http://maps.google.com/maps?hl=en&amp;ie=UTF8&amp;ll=37.0625,-95.677068&amp;spn=56.506174,79.013672&amp;t=m&amp;z=4&amp;output=embed" width="100%"></iframe></div>
+<!-- Contact Details Column -->
+
+<div class="col-md-4">
+<h3>Contact Details</h3>
+
+<p>3481 Melrose Place<br />
+Beverly Hills, CA 90210</p>
+
+<p><i class="fa fa-phone"></i> <abbr title="Phone">P</abbr>: (123) 456-7890</p>
+
+<p><i class="fa fa-envelope-o"></i> <abbr title="Email">E</abbr>: <a href="mailto:name@example.com">name@example.com</a></p>
+
+<p><i class="fa fa-clock-o"></i> <abbr title="Hours">H</abbr>: Monday - Friday: 9:00 AM to 5:00 PM</p>
+
+<ul class="list-unstyled list-inline list-social-icons">
+    <li><a href="#"><i class="fa fa-facebook-square fa-2x"></i></a></li>
+    <li><a href="#"><i class="fa fa-linkedin-square fa-2x"></i></a></li>
+    <li><a href="#"><i class="fa fa-twitter-square fa-2x"></i></a></li>
+    <li><a href="#"><i class="fa fa-google-plus-square fa-2x"></i></a></li>
+</ul>
+</div>
+</div>
+';
+        $tr->save();
+
+        if (!Page::where('module', 'partners')->count()) {        
+            Page::create([
+                'module' => 'partners',
+                'en' => [
+                    'slug' => 'partners',
+                    'uri' => 'partners', 
+                    'title' => 'Partners',
+                    'status' => 1,
+                    'body' => ''
+                ],
+                'fr' => [
+                    'slug' => 'partners',
+                    'uri' => 'partners', 
+                    'title' => 'Partners',
+                    'status' => 1,
+                    'body' => ''
+                ],
+                'nl' => [
+                    'slug' => 'partners',
+                    'uri' => 'partners', 
+                    'title' => 'Partners',
+                    'status' => 1,
+                    'body' => ''
+                ],
+            ]);
+        }
 
 
         /* Translations */
-        Translation::create([
-            'group' => 'db',
-            'key' => 'Copyright',
-            'en' => ['translation' => 'Made by Webfactory']
-        ]);
-        Translation::create([
-            'group' => 'db',
-            'key' => 'Home',
-            'en' => ['translation' => 'Home']
-        ]);
+        if (!Translation::where('key', 'Copyright')->count()) {
+            Translation::create([
+                'group' => 'db',
+                'key' => 'Copyright',
+                'en' => ['translation' => 'Made by Webfactory']
+            ]);
+        }
+        if (!Translation::where('key', 'Home')->count()) {
+            Translation::create([
+                'group' => 'db',
+                'key' => 'Home',
+                'en' => ['translation' => 'Home']
+            ]);
+        }
 
 
         /* Slides */
         for ($i = 1; $i <= 3; $i++){
-
            Slide::create([
                 'position' => $i,
                 'page_id' => 1,
@@ -91,7 +127,6 @@ class ThemeBasicSeeder extends Seeder
 
         /* Partners */
         for ($i = 1; $i <= 4; $i++){
-
            Partner::create([
                 'position' => $i,
                 'homepage' => 1,
