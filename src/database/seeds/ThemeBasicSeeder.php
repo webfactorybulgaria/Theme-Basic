@@ -44,7 +44,21 @@ class ThemeBasicSeeder extends Seeder
                 'title' => 'Partners',
                 'status' => 1,
                 'body' => ''
-            ]
+            ],
+            'fr' => [
+                'slug' => 'partners',
+                'uri' => 'partners', 
+                'title' => 'Partners',
+                'status' => 1,
+                'body' => ''
+            ],
+            'nl' => [
+                'slug' => 'partners',
+                'uri' => 'partners', 
+                'title' => 'Partners',
+                'status' => 1,
+                'body' => ''
+            ],
         ]);
 
 
