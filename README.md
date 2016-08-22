@@ -12,19 +12,20 @@ in config/app.php:
 
 before core add:
 ```
-TypiCMS\Modules\Contacts\Providers\ModuleProvider::class,
-TypiCMS\Modules\Slides\Providers\ModuleProvider::class,
-TypiCMS\Modules\Partners\Providers\ModuleProvider::class,
+TypiCMS\Modules\Contacts\Shells\Providers\ModuleProvider::class,
+TypiCMS\Modules\Slides\Shells\Providers\ModuleProvider::class,
+TypiCMS\Modules\Partners\Shells\Providers\ModuleProvider::class,
 ```
 
 after core add:
 ```
-TypiCMS\Modules\ThemeBasic\Providers\ModuleProvider::class,
+TypiCMS\Modules\ThemeBasic\Shells\Providers\ModuleProvider::class,
 ```
 
 Run these commands in the CLI
 ```
 php artisan vendor:publish
+composer dump-autoload
 php artisan migrate
 php artisan db:seed --class=ThemeBasicSeeder
 ```
