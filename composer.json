@@ -9,11 +9,11 @@
         }
     ],
     "require": {
-        "webfactorybulgaria/core": "~4.0.0",
-        "webfactorybulgaria/theme": "~4.0.0",
-        "webfactorybulgaria/slides": "~4.0.0",
-        "webfactorybulgaria/contacts": "~4.0.0",
-        "webfactorybulgaria/partners": "~4.0.0"
+        "webfactorybulgaria/core": "~4.1.0",
+        "webfactorybulgaria/theme": "~4.1.0",
+        "webfactorybulgaria/slides": "~4.1.0",
+        "webfactorybulgaria/contacts": "~4.1.0",
+        "webfactorybulgaria/partners": "~4.1.0"
     },
     "autoload": {
         "psr-4": {
